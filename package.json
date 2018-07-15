@@ -1,0 +1,21 @@
+{
+  "name": "pricemoov-backend-test",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node --presets babel-preset-env",
+    "build": "rm -rf dist/ && babel src/ --out-dir dist/"
+  },
+  "keywords": [],
+  "author": "Maxime AUBURTIN",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.18.2"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.2.3"
+  }
+}
