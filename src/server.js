@@ -13,10 +13,6 @@ app.use('/api', users);
 
 db.connect();
 
-app.get('/', (req, res) => {  
-    res.send('Hello World!');
-});
-
 app.listen(config.SERVER_PORT, () => {
-    console.log('Example app listening on port 3000!');
+    console.log('Server listening on port ' + config.SERVER_PORT + '!');
 });

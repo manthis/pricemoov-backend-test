@@ -51,7 +51,7 @@ class UserController {
             User.findByIdAndUpdate(
                 req.params.id, 
                 req.body, // We can directly pass the request body 
-                {new: true}, // Will pass the updated user and not the old one
+                {new: true}, // Will pass the updated user to the callback and not the old one (before update)
                 (err, updated_user) => {
                     if (err) {
                         res.status(500).send(err);
