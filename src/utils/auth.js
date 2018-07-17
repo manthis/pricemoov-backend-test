@@ -1,4 +1,5 @@
 import basicAuth from 'basic-auth';
+import bcrypt from 'bcryptjs';
 import User from '../models/user';
 
 let auth = async (req, res, next) => {
@@ -8,21 +9,22 @@ let auth = async (req, res, next) => {
         res.sendStatus(401);
         return;
     }
-    await User.findOne({ login: user.name }, (err, foundUser) => {
-        if (err || !foundUser) {
+    await User.findOne({ login: user.name }, (err, dbUser) => {
+        if (err || !dbUser) {
             if (err) console.log(err);
             res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
             res.sendStatus(401);
             return;
         }
-        if (user.pass === foundUser.password) {
+        bcrypt.compare(user.pass, dbUser.password, (err, success) => {
+            if (err || !success) {
+                res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+                res.sendStatus(401);
+                return;
+            }
+            // If success
             next();
-        }
-        else {
-            res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-            res.sendStatus(401);
-            return;
-        }
+        });
     });
 }
 

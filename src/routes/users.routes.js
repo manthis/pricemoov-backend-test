@@ -1,27 +1,30 @@
 
 import { Router } from 'express';
 import UserController from '../controllers/user.controller';
-import auth from '../utils/auth';
+import basicAuth from '../utils/auth';
 
 const router = new Router();
 
-router.get('/users', auth, (req, res) => {
+// We use our basic auth middleware
+router.use(basicAuth);
+
+router.get('/users', (req, res) => {
     UserController.getAll(req, res);
 });
 
-router.get('/users/:id', auth, (req, res) => {
+router.get('/users/:id', (req, res) => {
     UserController.getUser(req, res);
 });
 
-router.post('/users', auth, (req, res) => {
+router.post('/users', (req, res) => {
     UserController.addUser(req, res);
 });
 
-router.put('/users/:id', auth, (req, res) => {
+router.put('/users/:id', (req, res) => {
     UserController.updateUser(req, res);
 });
 
-router.delete('/users/:id', auth, (req, res) => {
+router.delete('/users/:id', (req, res) => {
     UserController.deleteUser(req, res);
 });
 
