@@ -1,6 +1,8 @@
 
-import User from '../models/user';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/user';
+import config from '../config/config';
 
 class UserController {
 
@@ -80,6 +82,26 @@ class UserController {
                     res.status(500).send(err);
                 }                
                 res.json({ deleted_user });                
+            });
+        }
+        catch (err) {
+            res.send(err);
+        }
+    }
+
+    static async generateToken(req, res) {
+        // Must store firstname, lastname and id of user in JWT payload
+        try {
+            User.findById(req.params.id, (err, user) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                let jwtToken = jwt.sign(
+                    {id: user._id, firstname: user.firstname, lastname: user.lastname}, 
+                    config.JWT_SECRET,
+                    { expiresIn: '1h' }
+                );
+                res.json({ jwtToken });
             });
         }
         catch (err) {

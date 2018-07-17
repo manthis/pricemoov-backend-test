@@ -28,4 +28,8 @@ router.delete('/users/:id', (req, res) => {
     UserController.deleteUser(req, res);
 });
 
+router.get('/users/:id/access_token', (req, res) => {
+    UserController.generateToken(req, res);
+});
+
 export default router;
