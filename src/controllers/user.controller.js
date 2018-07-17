@@ -1,5 +1,6 @@
 
 import User from '../models/user';
+import bcrypt from 'bcryptjs';
 
 class UserController {
 
@@ -33,13 +34,20 @@ class UserController {
 
     static async addUser(req, res) {
         try {    
-            const user = new User(req.body);    
-            user.save((err, saved) => {
+            const user = new User(req.body);   
+            bcrypt.hash(user.password, 10, function(err, hash) {
                 if (err) {
-                    res.status(500).send(err);
+                    throw err;
                 }
-                res.json({ user: saved });
-            });
+                // We replace the user password with its hash and save it
+                user.password = hash;
+                user.save((err, saved) => {
+                    if (err) {
+                        res.status(500).send(err);
+                    }
+                    res.json({ user: saved });
+                });
+            });   
         }
         catch (err) {
             res.send(err);
