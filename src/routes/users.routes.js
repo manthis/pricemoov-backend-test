@@ -1,12 +1,12 @@
 
 import { Router } from 'express';
 import UserController from '../controllers/user.controller';
-import basicAuth from '../utils/auth';
+import auth from '../utils/auth';
 
 const router = new Router();
 
 // We use our basic auth middleware
-router.use(basicAuth);
+router.use(auth);
 
 router.get('/users', (req, res) => {
     UserController.getAll(req, res);
