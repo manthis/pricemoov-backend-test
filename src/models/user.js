@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
         type: 'String',
         required: true,
     },
+    is_admin: {
+        type: 'Boolean',
+        required: true,
+    },
     dateAdded: { 
         type: 'Date', 
         default: Date.now, 
